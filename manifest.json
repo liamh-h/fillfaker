@@ -20,6 +20,7 @@
     {
       "matches": ["<all_urls>"],
       "js": [
+        "ExtPay.js",
         "data/locale-en.js",
         "content-scripts/generator.js",
         "content-scripts/field-detector.js",

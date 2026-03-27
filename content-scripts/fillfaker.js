@@ -17,6 +17,15 @@
     const stored = await chrome.storage.local.get(['fillfaker_only_empty']);
     onlyFillEmpty = stored.fillfaker_only_empty || false;
 
+    // Check ExtensionPay payment status
+    try {
+      const extpay = ExtPay('fillfaker');
+      const user = await extpay.getUser();
+      if (user.paid) {
+        await chrome.storage.local.set({ fillfaker_paid: true });
+      }
+    } catch (_) { /* ExtPay not available */ }
+
     chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       // getStatus is async — handle separately and return true to keep channel open
       if (msg.action === 'getStatus') {
@@ -358,8 +367,12 @@
     buyBtn.className = 'fillfaker-paywall-btn';
     buyBtn.textContent = 'Unlock Now \u2014 $1.99';
     buyBtn.onclick = () => {
-      // ExtensionPay integration point — add ExtPay.js when ready
-      window.open('https://extensionpay.com/extension/fillfaker', '_blank');
+      try {
+        const extpay = ExtPay('fillfaker');
+        extpay.openPaymentPage();
+      } catch (_) {
+        window.open('https://extensionpay.com/extension/fillfaker', '_blank');
+      }
     };
 
     const laterBtn = document.createElement('button');

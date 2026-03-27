@@ -1,3 +1,6 @@
+const extpay = ExtPay('fillfaker');
+extpay.startBackground();
+
 // FillFaker Service Worker
 
 // ── Context menus ───────────────────────────────────────────────────────
