@@ -1,3 +1,6 @@
+// Load ExtPay in service worker context (MV3 service workers don't get content_scripts)
+importScripts('ExtPay.js');
+
 const extpay = ExtPay('fillfaker');
 extpay.startBackground();
 

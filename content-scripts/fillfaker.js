@@ -7,6 +7,7 @@
 
   const MAX_FREE_USES = 5;
   const generator = new FakeDataGenerator();
+  const extpay = typeof ExtPay !== 'undefined' ? ExtPay('fillfaker') : null;
   let onlyFillEmpty = false;
 
   // Track which elements we filled (for accurate clearAll)
@@ -14,18 +15,7 @@
 
   // ── Init ──────────────────────────────────────────────────────────────
   async function init() {
-    const stored = await chrome.storage.local.get(['fillfaker_only_empty']);
-    onlyFillEmpty = stored.fillfaker_only_empty || false;
-
-    // Check ExtensionPay payment status
-    try {
-      const extpay = ExtPay('fillfaker');
-      const user = await extpay.getUser();
-      if (user.paid) {
-        await chrome.storage.local.set({ fillfaker_paid: true });
-      }
-    } catch (_) { /* ExtPay not available */ }
-
+    // Register message listener IMMEDIATELY — never block on network
     chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       // getStatus is async — handle separately and return true to keep channel open
       if (msg.action === 'getStatus') {
@@ -54,6 +44,20 @@
       sendResponse({ success: true });
       return false;
     });
+
+    // Load settings (non-blocking — listener is already active above)
+    const stored = await chrome.storage.local.get(['fillfaker_only_empty']);
+    onlyFillEmpty = stored.fillfaker_only_empty || false;
+
+    // Sync ExtPay payment status to local storage (background, non-blocking)
+    try {
+      if (extpay) {
+        const user = await extpay.getUser();
+        if (user.paid) {
+          await chrome.storage.local.set({ fillfaker_paid: true });
+        }
+      }
+    } catch (_) { /* ExtPay unavailable or network error */ }
   }
 
   // ── Read latest paywall state from storage (prevents multi-tab bypass) ─
@@ -368,8 +372,11 @@
     buyBtn.textContent = 'Unlock Now \u2014 $1.99';
     buyBtn.onclick = () => {
       try {
-        const extpay = ExtPay('fillfaker');
-        extpay.openPaymentPage();
+        if (extpay) {
+          extpay.openPaymentPage();
+        } else {
+          window.open('https://extensionpay.com/extension/fillfaker', '_blank');
+        }
       } catch (_) {
         window.open('https://extensionpay.com/extension/fillfaker', '_blank');
       }
