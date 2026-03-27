@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "FillFaker - Auto Fill Forms with Fake Data",
+  "version": "1.0.0",
+  "description": "One-click auto-fill web forms with realistic fake data. Generate random names, emails, phones, addresses for testing & development.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "data/locale-en.js",
+        "content-scripts/generator.js",
+        "content-scripts/field-detector.js",
+        "content-scripts/fillfaker.js"
+      ],
+      "css": ["content-scripts/fillfaker.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "commands": {
+    "fill-all": {
+      "suggested_key": { "default": "Alt+F" },
+      "description": "Fill all form fields with fake data"
+    },
+    "fill-form": {
+      "suggested_key": { "default": "Alt+Shift+F" },
+      "description": "Fill only the current form"
+    },
+    "regenerate": {
+      "suggested_key": { "default": "Alt+G" },
+      "description": "Regenerate with new fake data"
+    },
+    "clear-all": {
+      "suggested_key": { "default": "Alt+X" },
+      "description": "Clear all filled fields"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

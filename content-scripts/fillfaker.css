@@ -1,0 +1,157 @@
+/* FillFaker Styles */
+
+/* Field highlight animation on fill */
+.fillfaker-filled {
+  outline: 2px solid #4ecdc4 !important;
+  background-color: rgba(78, 205, 196, 0.05) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* ── Notification toast ── */
+.fillfaker-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 2147483647;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: fillfaker-slideIn 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.fillfaker-notification-success {
+  background: #0a2a1a;
+  color: #4ecdc4;
+  border: 1px solid #4ecdc4;
+}
+
+.fillfaker-notification-warning {
+  background: #2a1a0a;
+  color: #ffaa44;
+  border: 1px solid #ffaa44;
+}
+
+.fillfaker-notification-info {
+  background: #0a1a2a;
+  color: #44aaff;
+  border: 1px solid #44aaff;
+}
+
+.fillfaker-notification-hide {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+@keyframes fillfaker-slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Paywall overlay ── */
+.fillfaker-paywall {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fillfaker-fadeIn 0.3s ease;
+}
+
+@keyframes fillfaker-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fillfaker-paywall-box {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.fillfaker-paywall-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+}
+.fillfaker-paywall-close:hover {
+  color: #fff;
+}
+
+.fillfaker-paywall-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.fillfaker-paywall-box h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.fillfaker-paywall-box p {
+  font-size: 15px;
+  color: #aaa;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.fillfaker-paywall-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background: #4ecdc4;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.fillfaker-paywall-btn:hover {
+  background: #45b8b0;
+}
+
+.fillfaker-paywall-later {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: none;
+  color: #666;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+.fillfaker-paywall-later:hover {
+  color: #aaa;
+}

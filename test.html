@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FillFaker Test Page</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; color: #333; }
+  h1 { margin-bottom: 20px; color: #4ecdc4; }
+  h2 { margin: 30px 0 15px; padding-bottom: 8px; border-bottom: 2px solid #4ecdc4; color: #333; }
+  h3 { margin: 20px 0 10px; color: #666; }
+  .test-section { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .full-width { grid-column: 1 / -1; }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #555; }
+  input, select, textarea { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #4ecdc4; }
+  textarea { resize: vertical; min-height: 60px; }
+  .radio-group, .checkbox-group { display: flex; gap: 16px; align-items: center; }
+  .radio-group label, .checkbox-group label { flex-direction: row; gap: 6px; }
+  .result-box { background: #f0f0f0; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 12px; white-space: pre-wrap; max-height: 200px; overflow-y: auto; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-p0 { background: #ff4444; color: #fff; }
+  .badge-p1 { background: #ffaa44; color: #000; }
+  .badge-feature { background: #4ecdc4; color: #000; }
+  .test-note { font-size: 12px; color: #888; margin-top: 4px; }
+  [contenteditable] { border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; min-height: 40px; }
+  [contenteditable]:focus { outline: none; border-color: #4ecdc4; }
+  .prefilled { color: #999; }
+</style>
+</head>
+<body>
+
+<h1>FillFaker Test Page</h1>
+<p>Open this page in Chrome with FillFaker loaded, then test each section. Press <kbd>Alt+F</kbd> to fill all.</p>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>1. Registration Form <span class="badge badge-feature">Core</span></h2>
+<div class="test-section">
+  <form id="registration">
+    <label>First Name <input type="text" name="firstName" placeholder="First name"></label>
+    <label>Last Name <input type="text" name="lastName" placeholder="Last name"></label>
+    <label>Email <input type="email" name="email" placeholder="you@example.com"></label>
+    <label>Phone <input type="tel" name="phone" placeholder="(555) 123-4567"></label>
+    <label>Username <input type="text" name="username" placeholder="Username"></label>
+    <label>Password <input type="password" name="password" placeholder="Password"></label>
+    <label>Date of Birth <input type="date" name="dob"></label>
+    <label>Age <input type="number" name="age" placeholder="Age"></label>
+    <label class="full-width">Bio <textarea name="bio" placeholder="Tell us about yourself..."></textarea></label>
+  </form>
+  <p class="test-note">Verify: name, email, username should all be consistent (same person)</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>2. Address Form <span class="badge badge-feature">Consistency</span></h2>
+<div class="test-section">
+  <form id="address">
+    <label>Street Address <input type="text" name="address" placeholder="123 Main St"></label>
+    <label>City <input type="text" name="city" placeholder="City"></label>
+    <label>State <input type="text" name="state" placeholder="State"></label>
+    <label>ZIP Code <input type="text" name="zip" placeholder="ZIP"></label>
+    <label>Country
+      <select name="country">
+        <option value="">Select country...</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="UK">United Kingdom</option>
+        <option value="AU">Australia</option>
+      </select>
+    </label>
+    <label>Company <input type="text" name="company" placeholder="Company name"></label>
+    <label>Job Title <input type="text" name="jobTitle" placeholder="Job title"></label>
+    <label>Website <input type="url" name="website" placeholder="https://"></label>
+  </form>
+  <p class="test-note">Verify: city/state/zip should match a real US location</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>3. Payment Form <span class="badge badge-feature">Luhn</span></h2>
+<div class="test-section">
+  <form id="payment">
+    <label>Cardholder Name <input type="text" name="fullName" placeholder="Name on card"></label>
+    <label>Card Number <input type="text" name="creditCard" placeholder="4532-XXXX-XXXX-XXXX"></label>
+    <label>Expiry Date <input type="text" name="expDate" placeholder="MM/YY"></label>
+    <label>CVV <input type="text" name="cvv" placeholder="123"></label>
+  </form>
+  <p class="test-note">Verify: card number should pass Luhn validation</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>4. Autocomplete Attributes <span class="badge badge-p0">P0 Signal</span></h2>
+<div class="test-section">
+  <form id="autocomplete-form">
+    <label>Given Name <input type="text" autocomplete="given-name" placeholder="autocomplete=given-name"></label>
+    <label>Family Name <input type="text" autocomplete="family-name" placeholder="autocomplete=family-name"></label>
+    <label>Email <input type="text" autocomplete="email" placeholder="autocomplete=email"></label>
+    <label>Phone <input type="text" autocomplete="tel" placeholder="autocomplete=tel"></label>
+    <label>Street <input type="text" autocomplete="street-address" placeholder="autocomplete=street-address"></label>
+    <label>Postal Code <input type="text" autocomplete="postal-code" placeholder="autocomplete=postal-code"></label>
+    <label>Organization <input type="text" autocomplete="organization" placeholder="autocomplete=organization"></label>
+    <label>CC Number <input type="text" autocomplete="cc-number" placeholder="autocomplete=cc-number"></label>
+  </form>
+  <p class="test-note">Verify: these inputs have NO name/id — only autocomplete attributes should drive detection</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>5. Radio & Checkbox Groups <span class="badge badge-feature">Groups</span></h2>
+<div class="test-section">
+  <form id="radio-checkbox">
+    <div class="full-width">
+      <p><strong>Gender (radio group)</strong></p>
+      <div class="radio-group">
+        <label><input type="radio" name="gender" value="male"> Male</label>
+        <label><input type="radio" name="gender" value="female"> Female</label>
+        <label><input type="radio" name="gender" value="other"> Other</label>
+      </div>
+    </div>
+    <div class="full-width">
+      <p><strong>Plan (radio group)</strong></p>
+      <div class="radio-group">
+        <label><input type="radio" name="plan" value="free"> Free</label>
+        <label><input type="radio" name="plan" value="pro"> Pro</label>
+        <label><input type="radio" name="plan" value="enterprise"> Enterprise</label>
+      </div>
+    </div>
+    <div class="full-width">
+      <p><strong>Interests (checkboxes)</strong></p>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="interest_tech" value="1"> Technology</label>
+        <label><input type="checkbox" name="interest_design" value="1"> Design</label>
+        <label><input type="checkbox" name="interest_business" value="1"> Business</label>
+        <label><input type="checkbox" name="interest_science" value="1"> Science</label>
+      </div>
+    </div>
+  </form>
+  <p class="test-note">Verify: exactly ONE radio selected per group, checkboxes ~50% random</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>6. Duplicate Radio Group Names (Multi-Form) <span class="badge badge-p1">P1 Fix</span></h2>
+<div class="test-section">
+  <h3>Form A</h3>
+  <form id="form-a">
+    <div class="full-width">
+      <div class="radio-group">
+        <label><input type="radio" name="rating" value="1"> 1 Star</label>
+        <label><input type="radio" name="rating" value="2"> 2 Stars</label>
+        <label><input type="radio" name="rating" value="3"> 3 Stars</label>
+      </div>
+    </div>
+  </form>
+  <h3>Form B</h3>
+  <form id="form-b">
+    <div class="full-width">
+      <div class="radio-group">
+        <label><input type="radio" name="rating" value="1"> 1 Star</label>
+        <label><input type="radio" name="rating" value="2"> 2 Stars</label>
+        <label><input type="radio" name="rating" value="3"> 3 Stars</label>
+      </div>
+    </div>
+  </form>
+  <p class="test-note">Verify: BOTH forms should have a radio selected (not just the first)</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>7. Label-for Detection <span class="badge badge-feature">Signal 8</span></h2>
+<div class="test-section">
+  <form id="label-form">
+    <label for="mystery-field-1">Email Address</label>
+    <input type="text" id="mystery-field-1" placeholder="No name attr, label says 'Email Address'">
+
+    <label for="mystery-field-2">Phone Number</label>
+    <input type="text" id="mystery-field-2" placeholder="No name attr, label says 'Phone Number'">
+  </form>
+  <p class="test-note">Verify: fields detected via label text even though name/id are meaningless</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>8. Cross-Signal False Positive Test <span class="badge badge-p1">P1 Fix</span></h2>
+<div class="test-section">
+  <form id="cross-signal-form">
+    <label>
+      This input: name="user" id="age_field"
+      <input type="text" name="user" id="age_field" placeholder="Should detect as 'username' not 'age'">
+    </label>
+    <label>
+      This input: name="billing_address" class="state-input"
+      <input type="text" name="billing_address" class="state-input" placeholder="Should detect as 'address' not 'state'">
+    </label>
+  </form>
+  <p class="test-note">Verify: name signal should take priority. First field = username, second = address</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>9. Contenteditable <span class="badge badge-feature">Rich Text</span></h2>
+<div class="test-section">
+  <p><strong>Editable div:</strong></p>
+  <div contenteditable="true" style="margin-bottom: 12px;" data-placeholder="Click and type..."></div>
+  <p><strong>Editable span:</strong></p>
+  <span contenteditable="true" style="display: block;"></span>
+  <p class="test-note">Verify: both contenteditable elements should be filled with bio text</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>10. "Only Fill Empty" Test <span class="badge badge-feature">Toggle</span></h2>
+<div class="test-section">
+  <form id="prefilled-form">
+    <label>Name (prefilled) <input type="text" name="fullName" value="DO NOT OVERWRITE ME" class="prefilled"></label>
+    <label>Email (empty) <input type="email" name="email" placeholder="This should get filled"></label>
+    <label>Phone (prefilled) <input type="tel" name="phone" value="(555) 000-0000" class="prefilled"></label>
+    <label>City (empty) <input type="text" name="city" placeholder="This should get filled"></label>
+  </form>
+  <p class="test-note">Toggle "Only fill empty fields" ON in popup, then fill. Prefilled values should NOT be overwritten.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>11. Fill This Form (Alt+Shift+F) <span class="badge badge-p1">Scoping</span></h2>
+<div class="test-section">
+  <h3>Form Alpha — click inside first, then press Alt+Shift+F</h3>
+  <form id="alpha" style="background: #f9f9f9; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+    <label>Name <input type="text" name="fullName"></label>
+    <label>Email <input type="email" name="email"></label>
+  </form>
+  <h3>Form Beta — should NOT be filled by Alt+Shift+F on Alpha</h3>
+  <form id="beta" style="background: #f9f9f9; padding: 12px; border-radius: 6px;">
+    <label>Name <input type="text" name="fullName"></label>
+    <label>Email <input type="email" name="email"></label>
+  </form>
+  <p class="test-note">Verify: only the focused form gets filled, not both</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>12. Special Characters in Field Names <span class="badge badge-p0">Fake Filler Bug</span></h2>
+<div class="test-section">
+  <form id="special-chars">
+    <label>field with dash <input type="text" name="first-name" placeholder="name contains dash"></label>
+    <label>field with dot <input type="text" name="user.email" placeholder="name contains dot"></label>
+    <label>field with bracket <input type="text" name="address[city]" placeholder="name contains brackets"></label>
+  </form>
+  <p class="test-note">Verify: all three fields should be correctly detected and filled (Fake Filler fails on these)</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>13. Disabled / ReadOnly / Hidden Fields</h2>
+<div class="test-section">
+  <form id="skip-fields">
+    <label>Normal field <input type="text" name="fullName" placeholder="Should be filled"></label>
+    <label>Disabled <input type="text" name="email" disabled placeholder="Should NOT be filled"></label>
+    <label>ReadOnly <input type="text" name="phone" readonly value="READ ONLY" placeholder="Should NOT be filled"></label>
+    <input type="hidden" name="token" value="abc123">
+    <label>Another normal <input type="text" name="city" placeholder="Should be filled"></label>
+  </form>
+  <p class="test-note">Verify: disabled, readonly, and hidden fields are skipped</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>14. Shadow DOM <span class="badge badge-p0">Shadow</span></h2>
+<div class="test-section">
+  <div id="shadow-host"></div>
+  <p class="test-note">Verify: fields inside the Shadow DOM should be detected and filled</p>
+  <script>
+    const host = document.getElementById('shadow-host');
+    const shadow = host.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `
+      <style>
+        label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #555; margin-bottom: 12px; }
+        input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+      </style>
+      <div style="background: #e8f8f5; padding: 16px; border-radius: 8px; border: 2px dashed #4ecdc4;">
+        <p style="font-weight: bold; margin-bottom: 12px;">Inside Shadow DOM:</p>
+        <label>Email <input type="email" name="shadow-email" placeholder="Shadow DOM email"></label>
+        <label>Name <input type="text" name="fullName" placeholder="Shadow DOM name"></label>
+      </div>
+    `;
+  </script>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>15. React-style Event Verification <span class="badge badge-p0">Framework</span></h2>
+<div class="test-section">
+  <form id="react-test">
+    <label>Simulated React Input
+      <input type="text" name="firstName" id="react-input" placeholder="Check console for events">
+    </label>
+    <div id="react-event-log" class="result-box" style="margin-top: 12px;">Event log will appear here...</div>
+  </form>
+  <script>
+    const reactInput = document.getElementById('react-input');
+    const eventLog = document.getElementById('react-event-log');
+    const events = [];
+    ['focus', 'input', 'change', 'blur'].forEach(type => {
+      reactInput.addEventListener(type, (e) => {
+        events.push(`${e.type}: value="${reactInput.value}"`);
+        eventLog.textContent = events.join('\n');
+      });
+    });
+  </script>
+  <p class="test-note">Verify: all 4 events (focus, input, change, blur) fire with the correct value</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>16. SSN Field <span class="badge badge-feature">Sensitive</span></h2>
+<div class="test-section">
+  <form id="ssn-form">
+    <label>Social Security Number <input type="text" name="ssn" placeholder="XXX-XX-XXXX"></label>
+  </form>
+  <p class="test-note">Verify: SSN area code (first 3 digits) should be 100-665 (valid range)</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<h2>Luhn Validator</h2>
+<div class="test-section">
+  <label>Paste a card number to validate:
+    <input type="text" id="luhn-check" placeholder="Paste card number here" style="width: 100%; margin-top: 8px;">
+  </label>
+  <div id="luhn-result" class="result-box" style="margin-top: 12px;">...</div>
+  <script>
+    document.getElementById('luhn-check').addEventListener('input', (e) => {
+      const num = e.target.value.replace(/[\s\-]/g, '');
+      if (!/^\d+$/.test(num)) { document.getElementById('luhn-result').textContent = 'Enter digits only'; return; }
+      let sum = 0, alt = false;
+      for (let i = num.length - 1; i >= 0; i--) {
+        let n = parseInt(num[i], 10);
+        if (alt) { n *= 2; if (n > 9) n -= 9; }
+        sum += n;
+        alt = !alt;
+      }
+      const valid = sum % 10 === 0;
+      document.getElementById('luhn-result').textContent = valid
+        ? `VALID Luhn checksum (${num.length} digits)`
+        : `INVALID Luhn checksum (sum=${sum}, remainder=${sum % 10})`;
+      document.getElementById('luhn-result').style.color = valid ? '#4ecdc4' : '#ff4444';
+    });
+  </script>
+</div>
+
+</body>
+</html>
